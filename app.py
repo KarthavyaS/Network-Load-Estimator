@@ -1,4 +1,3 @@
-
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -163,7 +162,7 @@ with st.sidebar:
     st.markdown(f"**Records:** {len(data)}")
 
 # ---------- HOME PAGE ----------
-if menu == "🏠 Home":
+if menu == "Home":
     st.title("⚡ AI Crowd-Aware Network Load Estimator")
     st.markdown("### Real-time Crowd Density & Network Traffic Analysis")
     
@@ -202,11 +201,11 @@ if menu == "🏠 Home":
         """, unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
-    st.info("ℹ️ Navigate to the Prediction tab to estimate network load based on device count and time.")
+    st.info("Navigate to the Prediction tab to estimate network load based on device count and time!!")
 
 # ---------- PREDICTION PAGE ----------
-elif menu == "📊 Prediction":
-    st.title("🚀 Load Prediction Engine")
+elif menu == "Prediction":
+    st.title("Load Prediction Engine")
     st.markdown("Enter the parameters below to predict network congestion.")
     
     col1, col2 = st.columns([1, 1])
@@ -218,7 +217,7 @@ elif menu == "📊 Prediction":
         model_choice = st.selectbox("Select AI Model", ["Random Forest (Recommended)", "Linear Regression"])
 
     with col2:
-        st.markdown("### 🎯 Result")
+        st.markdown("### RESULT!")
         st.markdown("<br>", unsafe_allow_html=True)
         
         if st.button("Run Prediction", use_container_width=True):
@@ -238,26 +237,26 @@ elif menu == "📊 Prediction":
             # Logic for congestion levels
             st.markdown("<br>", unsafe_allow_html=True)
             if pred < 0.8:
-                st.success("✅ **Low Congestion**: Network is optimal.")
+                st.success("**LOW CONGESTION**: Network is optimal.")
             elif pred < 1.6:
-                st.warning("⚠️ **Medium Congestion**: Moderate traffic detected.")
+                st.warning("**MEDIUM CONGESTION **: Moderate traffic detected.")
             else:
-                st.error("🚨 **High Congestion**: Network overload imminent!")
+                st.error("**HIGH CONGESTION**: Network overload imminent!")
 
             # Save to history
             hist = pd.DataFrame([[devices, time, pred]], columns=["Devices","Time","Prediction"])
             hist.to_csv("history.csv", mode='a', header=False, index=False)
 
 # ---------- ANALYTICS PAGE ----------
-elif menu == "📈 Analytics":
-    st.title("📊 Network Analytics")
+elif menu == "Analytics":
+    st.title("Network Analytics")
     st.markdown("Deep dive into network performance metrics.")
     
     # 3D visuals using Plotly
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 📱 Devices vs Load")
+        st.markdown("### Devices vs Load")
         fig1 = px.scatter(data, x='Devices', y='Load', 
                           color='Load', size='Devices',
                           color_continuous_scale='Viridis',
@@ -265,7 +264,7 @@ elif menu == "📈 Analytics":
         st.plotly_chart(fig1, use_container_width=True)
         
     with col2:
-        st.markdown("### ⏰ Time vs Load")
+        st.markdown("### Time vs Load")
         fig2 = px.line(data.groupby('Time')['Load'].mean().reset_index(), 
                        x='Time', y='Load', 
                        markers=True, line_shape='spline',
@@ -273,14 +272,14 @@ elif menu == "📈 Analytics":
         fig2.update_traces(line_color='#00d2ff', line_width=4)
         st.plotly_chart(fig2, use_container_width=True)
 
-    st.markdown("### 🌐 Load Distribution")
+    st.markdown("### Load Distribution")
     fig3 = px.histogram(data, x='Load', nbins=20, 
                         color_discrete_sequence=['#ff00cc'],
                         template='plotly_dark')
     st.plotly_chart(fig3, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("### 🧬 Model Performance & Advanced Insights")
+    st.markdown("### Model Performance & Advanced Insights")
 
     col_metrics1, col_metrics2 = st.columns(2)
 
@@ -305,19 +304,19 @@ elif menu == "📈 Analytics":
     col_viz1, col_viz2 = st.columns(2)
     
     with col_viz1:
-        st.markdown("### 🔥 Correlation Heatmap")
+        st.markdown("### Correlation Heatmap")
         corr = data[['Devices', 'Time', 'Load']].corr()
         fig_corr = px.imshow(corr, text_auto=True, aspect="auto", color_continuous_scale='RdBu_r', template='plotly_dark')
         st.plotly_chart(fig_corr, use_container_width=True)
 
     with col_viz2:
-        st.markdown("### 📦 Load Variability (Box Plot)")
+        st.markdown("### Load Variability (Box Plot)")
         fig_box = px.box(data, x='Time', y='Load', color='Time', template='plotly_dark')
         st.plotly_chart(fig_box, use_container_width=True)
 
 # ---------- HISTORY PAGE ----------
-elif menu == "🕘 History":
-    st.title("📜 Prediction Log")
+elif menu == "History":
+    st.title("Prediction Log")
     
     try:
         h = pd.read_csv("history.csv", names=["Devices","Time","Prediction"])
