@@ -179,7 +179,7 @@ Through this project:
 
 ## Author
 
-Developed as part of an AI & Networking Internship Project.
+Karthavya S
 
 ---
 
